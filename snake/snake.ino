@@ -90,6 +90,17 @@ void randomFood() {
   }
 }
 void move() {
+if((snakeX[0] == FoodX) and (snakeY[0] == FoodY)){
+  lenSnake++;
+  randomFood();
+  gb.sound(SCORE);
+}
+ for(int i = lenSnake - 1; i > 0; i--){
+  if(snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]){
+    gb.sound(COLLISION);
+    lose();
+  }
+ }
   // Shift the snake's body to the next position
   for (int i = lenSnake - 1; i > 0; i--) {
     snakeX[i] = snakeX[i - 1];
@@ -118,4 +129,7 @@ boolean isPartOfSnake(int x, int y) {
   }
 }
 return false;
+}
+void lose(){
+  
 }
