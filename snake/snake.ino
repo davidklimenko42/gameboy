@@ -34,11 +34,11 @@ void setup() {
   snakeY[0] = 7;
   randomSeed(analogRead(2)); // Random seed for food generation
   randomFood(); // Generate food on start
+  int Wright;
 }
 void loop() {
   makeMove(); // Handle input from the buttons
   move(); // Move snake based on direction
-  // Check if snake eats food
   if ((snakeX[0] == FoodX) && (snakeY[0] == FoodY)) {
     lenSnake++;
     randomFood(); // Respawn food
@@ -47,6 +47,7 @@ void loop() {
   drawSnake(); // Draw the snake on the screen
   drawFood(); // Draw the food on the screen
   delay(250); // Frame delay for game speed
+  void lose();
 }
 void makeMove() {
   int key = gb.getKey(); // Get input from the buttons
@@ -74,10 +75,10 @@ bool collision(int x, int y, int fx, int fy) {
 }
 void drawFood() {
   state = !state;
-  if (state == true){
+  if (state == true) {
     gb.drawPoint(FoodX, FoodY); // Draw food at the generated position
   }
-  else{
+  else {
     gb.wipePoint(FoodX, FoodY);
   }
 } // <--- This closing brace was missing
@@ -90,17 +91,17 @@ void randomFood() {
   }
 }
 void move() {
-if((snakeX[0] == FoodX) and (snakeY[0] == FoodY)){
-  lenSnake++;
-  randomFood();
-  gb.sound(SCORE);
-}
- for(int i = lenSnake - 1; i > 0; i--){
-  if(snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]){
-    gb.sound(COLLISION);
-    lose();
+  if ((snakeX[0] == FoodX) and (snakeY[0] == FoodY)) {
+    lenSnake++;
+    randomFood();
+    gb.sound(SCORE);
   }
- }
+  for (int i = lenSnake - 1; i > 0; i--) {
+    if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
+      gb.sound(COLLISION);
+      lose();
+    }
+  }
   // Shift the snake's body to the next position
   for (int i = lenSnake - 1; i > 0; i--) {
     snakeX[i] = snakeX[i - 1];
@@ -125,11 +126,28 @@ void drawSnake() {
 boolean isPartOfSnake(int x, int y) {
   for (int i = 0; i < lenSnake - 1; i++) {
     if ((x == snakeX[i]) && (y == snakeY[i])) {
-    return true;
+      return true;
+    }
   }
+  return false;
 }
-return false;
-}
-void lose(){
-  
+void lose() {
+  for (int i = y; y < 16; x++) {
+    for (int j = x; x < 8; y++) {
+      gb.drawPoint(y, x);
+      delay(50);
+    }
+  }
+  delay(500);
+  gb.clearDisplay();
+  for (int i = 0; i < lenSnake; i++) {
+    snakeX[i] = 0;
+    snakeY[i] = 0;
+  }
+  direction = Wright;
+  FoodX = 3;
+  FoodY = 3;
+  lenSnake = 1;
+  snakeX[0] = 4;
+  snakeY[0] = 7;
 }
