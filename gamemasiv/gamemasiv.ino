@@ -1,3 +1,6 @@
+#include <GameBoy.h>
+#include "mainRaicing.h"
+
 byte ARROWS[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 1, 0, 0, 1, 0, 0},
@@ -28,44 +31,46 @@ byte SNAKE[8][8] = {
   {0, 1, 1, 0, 0, 1, 1, 0},
   {0, 0, 1, 1, 1, 1, 0, 0},
 };
-int modeCount()
-int gb
-void setup(){
-  
+int modeCount;
+
+void setup() {
+gb.begin(13);
 }
-void loop(){
-  
+void loop() {
+mainRaicing();
+//mainMenu();
 }
-void mainMenu(){
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
+void mainMenu() {
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
       gb.wipePoint(i, j);
       gb.setLed(i, j, ARROWS[j][i]);
     }
   }
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
       gb.wipePoint(i, 8 + j);
       gb.setLed(i, 8 + j, CAR[j][i]);
     }
   }
 }
-int modeSelector(){
-  if(gb.getKey() == 4){
+int modeSelector() {
+  if (gb.getKey() == 4) {
     modeCount++;
     delay(250);
-    if(modeCount > 1)
+    if (modeCount > 1)
     {
       modeCount = 0;
     }
-    
-    }
-  else if(gb.getKey() == 5){
+
+  }
+  else if (gb.getKey() == 5) {
     modeCount--;
     delay(250);
-    if(modeCount < 0)
+    if (modeCount < 0)
     {
       modeCount = 1;
     }
+  }
+  return modeCount;
 }
-return modeCount;
