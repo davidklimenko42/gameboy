@@ -1,5 +1,7 @@
 #include <GameBoy.h>
 #include "mainRaicing.h"
+#include "mainSnake.h"
+GameBoy gb;
 
 byte ARROWS[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
@@ -32,13 +34,31 @@ byte SNAKE[8][8] = {
   {0, 0, 1, 1, 1, 1, 0, 0},
 };
 int modeCount;
+int mode;
+void mainRacing();
 
 void setup() {
-gb.begin(13);
+  gb.begin(13);
 }
 void loop() {
-mainRaicing();
-//mainMenu();
+  if (gb.getKey() == 2 && modeSelector() == 0)
+  {
+    gb.clearDisplay();
+    mode = 1;
+  }
+  else if (gb.getKey() == 2 && modeSelector() == 1)
+  {
+    gb.clearDisplay();
+    mode = 2;
+  }
+  else if(gb.getKey() == 1)
+  {
+    gb.clearDisplay();
+    mode = 0;
+  }
+  switchMode(mode);
+           //mainRaicing();
+// mainSnake();
 }
 void mainMenu() {
   for (int i = 0; i < 8; i++) {
@@ -47,10 +67,26 @@ void mainMenu() {
       gb.setLed(i, j, ARROWS[j][i]);
     }
   }
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      gb.wipePoint(i, 8 + j);
-      gb.setLed(i, 8 + j, CAR[j][i]);
+  if (modeSelector() == 0)
+  {
+    for (int i = 0; i < 8; i++)
+    {
+      for (int j = 0; j < 8; j++)
+      {
+        gb.wipePoint(i, 8 + j);
+        gb.setLed(i, 8 + j, CAR[j][i]);
+      }
+    }
+  }
+  if (modeSelector() == 1)
+  {
+    for (int i = 0; i < 8; i++)
+    {
+      for (int j = 0; j < 8; j++)
+      {
+        gb.wipePoint(i, 8 + j);
+        gb.setLed(i, 8 + j, SNAKE[j][i]);
+      }
     }
   }
 }
@@ -73,4 +109,19 @@ int modeSelector() {
     }
   }
   return modeCount;
+}
+void switchMode(int mode)
+{
+  switch (mode)
+  {
+    case 0:
+      mainMenu();
+      break;
+    case 1:
+      mainRaicing();
+      break;
+    case 2:
+      mainSnake();
+      break;
+  }
 }
