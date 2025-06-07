@@ -1,6 +1,7 @@
 #include <GameBoy.h>
 #include "mainRaicing.h"
 #include "mainSnake.h"
+#include "mainTetris.h"
 GameBoy gb;
 
 byte ARROWS[8][8] = {
@@ -41,22 +42,29 @@ void setup() {
   gb.begin(13);
 }
 void loop() {
-  if (gb.getKey() == 2 && modeSelector() == 0)
-  {
-    gb.clearDisplay();
-    mode = 1;
-  }
-  else if (gb.getKey() == 2 && modeSelector() == 1)
-  {
-    gb.clearDisplay();
-    mode = 2;
-  }
-  else if(gb.getKey() == 1)
-  {
-    gb.clearDisplay();
-    mode = 0;
-  }
-  switchMode(mode);
+// for test
+makeMoveTetris();
+gb.clearDisplay();
+drawBlocks(gb.block(rot), xT, yT);
+yT++;
+delay(100);
+
+//  if (gb.getKey() == 2 && modeSelector() == 0)
+//  {
+//    gb.clearDisplay();
+//    mode = 1;
+//  }
+//  else if (gb.getKey() == 2 && modeSelector() == 1)
+//  {
+//    gb.clearDisplay();
+//    mode = 2;
+//  }
+//  else if(gb.getKey() == 1)
+//  {
+//    gb.clearDisplay();
+//    mode = 0;
+//  }
+//  switchMode(mode);
            //mainRaicing();
 // mainSnake();
 }
