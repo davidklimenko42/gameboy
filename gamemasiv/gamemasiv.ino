@@ -1,7 +1,7 @@
-#include <GameBoy.h>
-#include "mainRaicing.h"
+#include "mainRacing.h"
 #include "mainSnake.h"
 #include "mainTetris.h"
+#include <GameBoy.h>
 GameBoy gb;
 
 byte ARROWS[8][8] = {
@@ -40,14 +40,27 @@ void mainRacing();
 
 void setup() {
   gb.begin(13);
+  randomSeed(analogRead(A5));
+  createBlock(random(0, 7));
 }
 void loop() {
-// for test
-makeMoveTetris();
-gb.clearDisplay();
-drawBlocks(gb.block(rot), xT, yT);
-yT++;
-delay(100);
+  // for test
+   makeMoveTetris();
+  if (gb.checkBlockCollision(gb.block[rot], xT, yT + 1)) {
+    gb.memBlock(gb.block[rot], xT, yT);
+    createBlock(random(0, 7));
+  }
+  else {
+    yT++;
+  }
+  gb.drawDisplay();
+  drawBlock(gb.block[rot], xT, yT);
+  delay(100);
+}
+//gb.clearDisplay();
+//drawBlocks(gb.block(rot), xT, yT);
+//yT++;
+//delay(100);
 
 //  if (gb.getKey() == 2 && modeSelector() == 0)
 //  {
@@ -65,9 +78,8 @@ delay(100);
 //    mode = 0;
 //  }
 //  switchMode(mode);
-           //mainRaicing();
+//mainRaicing();
 // mainSnake();
-}
 void mainMenu() {
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 8; j++) {
@@ -126,7 +138,7 @@ void switchMode(int mode)
       mainMenu();
       break;
     case 1:
-      mainRaicing();
+      mainRacing();
       break;
     case 2:
       mainSnake();

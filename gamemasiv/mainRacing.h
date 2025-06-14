@@ -1,5 +1,5 @@
-#ifndef MAINRACING_H
-#define MAINRACING_H
+#ifndef MAINRAICING_H
+#define MAINRAICING_H
 #include <Arduino.h>
 #include <GameBoy.h>
 
@@ -11,14 +11,14 @@ int mycar_x = 2;
 int mycar_y = 12;
 int car_speed = 100;
 
-void enemyCar(int x, int y);
+void enemyCar(int x, int y);    
 void myCar(int x, int y);
 void clearMyCar(int x, int y);
 void clearEnemyCar(int x, int y);
 void createLine(int y);
 void clearLine(int y);
 bool Collision(int mycar_x, int mycar_y, int enemy_car_x, int enemy_car_y);
-void mainRacing();
+void mainRaicing();
 
 void enemyCar(int x, int y) {
   gb.drawPoint(x, y);
@@ -56,7 +56,7 @@ void clearEnemyCar(int x, int y) {
   gb.wipePoint(x - 1, y - 3);
   gb.wipePoint(x + 1, y - 3);
 }
-void mainRacing() {
+void mainRaicing() {
   enemy_x = random(0, 10);
   if (enemy_x > 5) {
     enemy_x = 2;
