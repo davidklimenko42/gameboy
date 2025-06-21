@@ -2,32 +2,26 @@
 #define MAINSNAKE_H
 #include <Arduino.h>
 #include <GameBoy.h>
-
 extern GameBoy gb;
 // macros for buttons
 #define btnUp 3
 #define btnLeft 4
 #define btnRight 5
 #define btnDown 6
-
 // macros for direction
 #define dirUp 0
 #define dirRight 1
 #define dirLeft 2
 #define dirDown 3
-
 // integers
 int FoodX, FoodY;
 int x = 1;
 int y = 0;
 int direction = dirRight;
 bool state;
-
 unsigned int lenSnake = 2;
-
 int snakeX[15];
 int snakeY[15];
-
 void randomFood();
 void makeMove();
 bool collision(int dirX, int dirY, int FoodX, int FoodY);
@@ -37,8 +31,6 @@ void drawFruit();
 boolean isPartOfSnake(int x, int y);
 void loss();
 void mainSnake();
-
-
 void makeMove()
 {
   int key = gb.getKey();
@@ -60,7 +52,6 @@ void makeMove()
     direction = dirDown;
   }
 }
-
 bool collision(int dirX, int dirY, int FoodX, int FoodY)
 {
   if (dirY == FoodY and dirX == FoodX)
@@ -72,7 +63,6 @@ bool collision(int dirX, int dirY, int FoodX, int FoodY)
     return false;
   }
 }
-
 void drawFruit()
 {
   state = !state;
@@ -85,7 +75,6 @@ void drawFruit()
     gb.wipePoint(FoodX, FoodY);
   }
 }
-
 void randomFood()
 {
   FoodX = random(0, 8);
@@ -96,7 +85,6 @@ void randomFood()
     FoodY = random(0, 16);
   }
 }
-
 void move()
 {
   if ((snakeX[0] == FoodX) && (snakeY[0] == FoodY))
@@ -166,7 +154,6 @@ void move()
     }
   }
 }
-
 void drawSnake()
 {
   for (size_t i = 0; i < lenSnake; i++)
@@ -174,7 +161,6 @@ void drawSnake()
     gb.drawPoint(snakeX[i], snakeY[i]);
   }
 }
-
 boolean isPartOfSnake(int x, int y)
 {
   for (int i = 0; i < lenSnake - 1; i++)
@@ -210,7 +196,6 @@ void loss()
   snakeX[0] = 4;
   snakeY[0] = 7;
 }
-
 void mainSnake()
 {
   makeMove(); // read buttons
@@ -220,7 +205,4 @@ void mainSnake()
   drawFruit();
   delay(200);
 }
-
-
-
 #endif

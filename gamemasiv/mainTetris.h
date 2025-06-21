@@ -9,7 +9,11 @@ extern GameBoy gb;
 int xT = 2;
 int yT = -1;
 int rot = 0;
-
+unsigned int score = 0;
+unsigned int level = 0;
+int acc = 1;
+bool lossTetris();
+bool winTetris();
 void drawBlock(byte arr[4][4], int xT, int yT);
 void makeMoveTetris();
 void createBlock(int num);
@@ -49,7 +53,12 @@ void makeMoveTetris()
       }
     }
   }
-}
+       if(gb.getKey() == 6){
+        acc = 4;
+       }else{
+         acc = 1;
+       }
+      }
 
 void createBlock(int num)
 {
@@ -62,5 +71,18 @@ void createBlock(int num)
   if (num == 5) gb.generateBlock(gb.block, T_Block_1, T_Block_2, T_Block_3, T_Block_4);
   if (num == 6) gb.generateBlock(gb.block, O_Block_1, O_Block_2, O_Block_3, O_Block_4);
 }
-
+bool lossTetris(){
+  if(gb.checkBlockCollision(gb.block[rot], xT, 0)){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+bool winTetris(){
+  if(score >= 20){
+    return true;
+  }
+  return false;
+}
 #endif

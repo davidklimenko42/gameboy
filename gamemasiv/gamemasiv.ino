@@ -37,6 +37,7 @@ byte SNAKE[8][8] = {
 int modeCount;
 int mode;
 void mainRacing();
+int speed = 200;
 
 void setup() {
   gb.begin(13);
@@ -45,9 +46,41 @@ void setup() {
 }
 void loop() {
   // for test
-   makeMoveTetris();
+  if (lossTetris() == true) {
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 16; j++) {
+        gb.wipePoint(i, j);
+      }
+    } 
+    Serial.println("You lost the game");
+    gb.sound(COLLISION);
+    gb.testMatrix(10);
+  }
+  if(winTetris() == true){
+    for(int i = 0;i < 8; i++){
+      for(int j = 0;j < 16; j++){
+        gb.wipePoint(i, j);
+        gb.setLed(i, j, WIN[j][i]);
+      }
+    }
+    delay(2000);
+    gb.clearDisplay();
+    score = 0;
+    level = 0;
+  }
+  makeMoveTetris();
   if (gb.checkBlockCollision(gb.block[rot], xT, yT + 1)) {
     gb.memBlock(gb.block[rot], xT, yT);
+    int lines = gb.fullLine();
+    if (lines != 0) {
+      score += lines;
+      level += lines;
+    }
+    if (level >= 5) {
+      gb.sound(SCORE);
+      acc += 1;
+      level = 0;
+    }
     createBlock(random(0, 7));
   }
   else {
@@ -55,7 +88,7 @@ void loop() {
   }
   gb.drawDisplay();
   drawBlock(gb.block[rot], xT, yT);
-  delay(100);
+  delay(speed / acc);
 }
 //gb.clearDisplay();
 //drawBlocks(gb.block(rot), xT, yT);
